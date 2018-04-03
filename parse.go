@@ -43,17 +43,6 @@ func parseNet(s string) (net.IP, *net.IPNet, error) {
 		return net.ParseCIDR(s)
 	}
 
-	// Traditional IPv4 netmask format.
-	i := strings.IndexAny(s, "/ ")
-	if i < 0 {
-		return nil, nil, &net.ParseError{Type: "network address", Text: s}
-	}
-
-	ip := net.ParseIP(s[:i])
-	m := net.IPMask(net.ParseIP(s[i+1:]).To4())
-	if _, size := m.Size(); ip == nil || size != 32 {
-		return nil, nil, &net.ParseError{Type: "network address", Text: s}
-	}
-
-	return ip, &net.IPNet{IP: ip.Mask(m), Mask: m}, nil
+	// IPv4 dotted decimal subnet mask format.
+	return parseDD(s)
 }

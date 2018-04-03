@@ -10,14 +10,28 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"net"
 	"os"
+	"strings"
 )
 
 func main() {
 	doAggr := flag.Bool("aggr", true, "perform network aggregation")
 	doAssim := flag.Bool("assim", true, "perform network assimilation")
 	in := flag.String("in", "", "input file")
+	notation := flag.String("notation", "cidr", "output notation: \"cidr\" or \"dd\"")
 	flag.Parse()
+
+	var s func(n net.IPNet) string
+	switch strings.ToLower(*notation) {
+	case "cidr":
+		s = func(n net.IPNet) string { return n.String() }
+	case "dd":
+		s = dd
+	default:
+		fmt.Printf("Invalid output notation: %s\n", *notation)
+		return
+	}
 
 	var r io.Reader
 	if *in == "" {
@@ -34,7 +48,7 @@ func main() {
 
 	nets, err := parse(r)
 	if err != nil {
-		fmt.Printf("Parse error: %s", err.Error())
+		fmt.Printf("Parse error: %s\n", err.Error())
 		return
 	}
 
@@ -47,6 +61,6 @@ func main() {
 	}
 
 	for _, n := range nets {
-		fmt.Println(n)
+		fmt.Println(s(*n))
 	}
 }

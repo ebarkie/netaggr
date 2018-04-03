@@ -31,11 +31,13 @@ The algorithm works as follows:
 ```
 Usage of ./netaggr:
   -aggr
-        perform network aggregation (default true)
+    	perform network aggregation (default true)
   -assim
-        perform network assimilation (default true)
+    	perform network assimilation (default true)
   -in string
-        input file
+    	input file
+  -notation string
+    	output notation: "cidr" or "dd" (default "cidr"
 ```
 
 If the `-in` flag is not specified it will read from stdin. To turn off assimilation or
