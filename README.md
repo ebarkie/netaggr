@@ -5,7 +5,7 @@
 
 This tool takes a list of networks and attempts to reduce it by removing smaller networks
 which are already represented by larger networks and joining adjacent networks to form
-larger networks.  The input and output represent exactly the same set up IP addresses.
+larger networks.  The input and output represent exactly the same set of IP addresses.
 
 Networks may be specified in IPv4/6 CIDR format or traditional IPv4 netmask format.
 
@@ -37,7 +37,7 @@ Usage of ./netaggr:
   -in string
     	input file
   -notation string
-    	output notation: "cidr" or "dd" (default "cidr"
+    	output notation: "cidr" or "dd" (default "cidr")
 ```
 
 If the `-in` flag is not specified it will read from stdin. To turn off assimilation or
