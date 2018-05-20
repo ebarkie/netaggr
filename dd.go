@@ -18,7 +18,7 @@ func parseDD(s string) (net.IP, *net.IPNet, error) {
 	}
 
 	ip := net.ParseIP(s[:i])
-	m := net.IPMask(net.ParseIP(s[i+1:]).To4())
+	m := net.IPMask(net.ParseIP(strings.TrimLeft(s[i+1:], " ")).To4())
 	if _, size := m.Size(); ip == nil || size != 32 {
 		return nil, nil, &net.ParseError{Type: "network address", Text: s}
 	}
