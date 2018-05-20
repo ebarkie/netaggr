@@ -2,17 +2,19 @@ language: go
 go:
   - '1.10'
 env:
-  - GARCH=x86_64
+  - OS=darwin BIN=netaggr-osx
+  - OS=linux BIN=netaggr-linux-x86_64 RUN_TESTS=true
+  - OS=windows BIN=netaggr-win.exe
 script:
-  - go vet ./...
-  - go test -race -v ./...
-  - GOOS=linux go build -o build/netaggr-linux-x86_64
-  - GOOS=darwin go build -o build/netaggr-osx
-  - GOOS=windows go build -o build/netaggr-win.exe
+  - if [ "$RUN_TESTS" == true ]; then
+      go vet ./...;
+      go test -race -v ./...;
+    fi
+  - GOOS=$OS GARCH=x86_64 go build -o build/$BIN
 deploy:
   provider: releases
   api_key:
-    secure: giIu6RD8hokLH92iCYzrxtHbahZDc60DKfJzaxNLuSscqZiBvhl8nS1DpNJMNEFrUfKFgxUgm/1w5WO9sSpWrSH6lszgPPX86Add7g+NruKvIR6EAa/TkvroUWNYt48CFToOh6pkpnIK1vdDYT0YwEOtJ6dbIc6cdm7BFfRXkwlGJo9ng3kQWdDBXTeO3ZyK1E0iAAcyt0ydnQZld4tD7q5ANgpKqaqakvLYt/QB0J1Y+bpvUHVOYNvYt3HMuYRVwBbi8IstJFkdyNdo4npHUxdLfSWQ904poNamhOEPferwW0Gak1vngw4t5vHNBzfBiJFqmml5cRb3kpkfY3Z1SPXmrFjWZLk+pjyZVgZo+KehvszHBcThS0Yop0wXHW6cwBaR2k9blE5E+XZw8B07CmW0kFgPz+7nvpHsx/GgBW3lgQxC8KGtA4whpMdtu+uOHc+vrF0HMF/ncgfjzDVll+21c1dV72Tcy1uzUOx4yF335SQqlpfCsi1YuRJ5X0ojZ6mTn9RgfwZj0EIutpsfN7vecrnQovQXbM4ohsf4a246XGO8jWUgu8PwMgr+s2PP6kFaf6wr9lLbadsyjKu5jmD61N6KmMvHXxSiKqFDsBQ0Em1kl/1HfUeeR6yrUYiOO2tjgasHdpQiuIVh4cx9f1q9QEQ+e8HV7Z188dxrKu8=
+    secure: g+rNi71mOwBmpuUvBO5FZZCm9A3vYeyfI3Dwue/BMg3MWvZEa/Ums+IKHZLJq1LHO/9zmJYaCgddZx+zQG4dXro+2OhURtcv1o2z9HKQmmJZzvCE8Ye3GUWqAURdFqtNYXFavtN+tIPsPS7AJ5bQDGEBuD5HY80vJkPjAakpFFwdklXYYw9BRZ8HUJXLmvGXaEMczR6rsIyNUWnUIDfqOu1OTPBtRcjnfYs0YWlYBgpZbEm4Wl4OBwlCc9/MAngthyjGwuh3v3iIt8aHpCUzqdrSqodAoqHkJ0A2qA67KMuL+S8rAlK/ixf3F1rmRreodZ6HgJdF6ZSJm2b6UDiZLv55/qXoH9o7qCTSa0Vcu0feW7x0wVG/SRbkFcBOk2mVdSI+bpgIady+BiAyBPjHsYRRMNmLBrK8Ihvb30pW6hzBv3TZWArGTnn8vaxgAdfH85LtyPjMUeT/DyAY28gwQkkp5bwhdWnc8nydkc7h/ATfrhPShYxsJdIxSzF4cXqkDcSO2ky12h2IoalGo1z6tMM0tLXmk/RuvV2CUk/qkIsF5zw4Jh20MSFNWYJGyj4iy/t6rp9xPdfkB7j2VXHs/Hdkyzk93CuCnHTeWUiSO5AlY4L5Ix8Qzqx/hyT9XMfQSu7dk7EXnvLAMjffMiFNJyB5tcqsSP/zEfC6MmU3L+0=
   file_glob: true
   file: build/*
   skip_cleanup: true
