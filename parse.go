@@ -14,16 +14,17 @@ import (
 	"strings"
 )
 
+type ipNets []*net.IPNet
+
 // parse parses a list of CIDR network strings from an io.Reader and returns a
 // sorted slice of net.IPNet's.
-func parse(r io.Reader) ([]*net.IPNet, error) {
-	var nets []*net.IPNet
-
+func parse(r io.Reader) (ipNets, error) {
+	var nets ipNets
 	scanner := bufio.NewScanner(r)
 	for i := 1; scanner.Scan(); i++ {
 		_, n, err := parseNet(strings.TrimSpace(scanner.Text()))
 		if err != nil {
-			return nil, fmt.Errorf("line %d %s", i, err)
+			return nets, fmt.Errorf("line %d %s", i, err)
 		}
 		nets = append(nets, n)
 	}
