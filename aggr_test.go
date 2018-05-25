@@ -24,7 +24,7 @@ func BenchmarkAggr(b *testing.B) {
 
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		aggr(&nets)
+		nets = nets[:aggr(nets)]
 	}
 }
 
@@ -38,7 +38,7 @@ func BenchmarkAssim(b *testing.B) {
 
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		assim(&nets)
+		nets = nets[:assim(nets)]
 	}
 }
 
@@ -57,8 +57,7 @@ func TestAggr(t *testing.T) {
 		defer f.Close()
 		nets, _ := parse(bufio.NewReader(f))
 
-		assim(&nets)
-		aggr(&nets)
+		nets = nets[:aggr(nets[:assim(nets)])]
 
 		var b bytes.Buffer
 		for _, n := range nets {

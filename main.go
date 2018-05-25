@@ -53,11 +53,11 @@ func main() {
 	}
 
 	if *doAssim {
-		assim(&nets)
+		nets = nets[:assim(nets)]
 	}
 
 	if *doAggr {
-		aggr(&nets)
+		nets = nets[:aggr(nets)]
 	}
 
 	for _, n := range nets {

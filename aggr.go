@@ -39,16 +39,19 @@ func decrPrefix(mask net.IPMask) net.IPMask {
 }
 
 // aggr joins adjacent networks to form larger networks.
-func aggr(nets *[]*net.IPNet) {
+//
+// It modifies the given nets slice and returns the new length
+// (1 <= n <= len(nets).
+func aggr(nets []*net.IPNet) int {
 	// The slice of IPNet's are sorted so iterate and if the current
 	// IPNet decremented by 1 is in the previous IPNet (the broadcast
 	// address, actually) then they are adjecent.  If the prefixes/masks
 	// also match then they can be combined.
-	for i := 0; i < len(*nets)-1; {
-		if (*nets)[i].Contains(decrIP((*nets)[i+1].IP)) &&
-			bytes.Equal((*nets)[i].Mask, (*nets)[i+1].Mask) {
-			(*nets)[i].Mask = decrPrefix((*nets)[i].Mask)
-			*nets = append((*nets)[:i+1], (*nets)[i+2:]...)
+	for i := 0; i < len(nets)-1; {
+		if nets[i].Contains(decrIP(nets[i+1].IP)) &&
+			bytes.Equal(nets[i].Mask, nets[i+1].Mask) {
+			nets[i].Mask = decrPrefix(nets[i].Mask)
+			nets = append(nets[:i+1], nets[i+2:]...)
 			// If this isn't the first network then decrement the index by 1
 			// to see if the new prefix allows for additional combines.
 			if i > 0 {
@@ -58,20 +61,24 @@ func aggr(nets *[]*net.IPNet) {
 			i++
 		}
 	}
+
+	return len(nets)
 }
 
 // assim removes smaller networks that are inside larger networks.
-func assim(nets *[]*net.IPNet) {
+//
+// It modifies the given nets slice and returns the new length
+// (1 <= n <= len(nets).
+func assim(nets []*net.IPNet) int {
 	// The slice of IPNet's are sorted so simply iterate and check if the
 	// current is in the previous IPNet.
-	var b int
-	for a := 1; a < len(*nets); a++ {
-		if !(*nets)[b].Contains((*nets)[a].IP) {
-			b++
-			(*nets)[b] = (*nets)[a]
+	for i := 1; i < len(nets); {
+		if nets[i-1].Contains(nets[i].IP) {
+			nets = append(nets[:i], nets[i+1:]...)
+		} else {
+			i++
 		}
 	}
-	if len(*nets) > 0 {
-		*nets = (*nets)[:b+1]
-	}
+
+	return len(nets)
 }
