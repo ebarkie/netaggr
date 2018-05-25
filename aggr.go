@@ -58,8 +58,6 @@ func (nets *ipNets) aggr() {
 			i++
 		}
 	}
-
-	*nets = (*nets)[:len(*nets)]
 }
 
 // assim removes smaller networks that are inside larger networks.
@@ -73,6 +71,4 @@ func (nets *ipNets) assim() {
 			i++
 		}
 	}
-
-	*nets = (*nets)[:len(*nets)]
 }
