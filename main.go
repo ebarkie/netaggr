@@ -13,6 +13,8 @@ import (
 	"net"
 	"os"
 	"strings"
+
+	"github.com/ebarkie/netaggr/internal/netcalc"
 )
 
 func main() {
@@ -27,7 +29,7 @@ func main() {
 	case "cidr":
 		s = func(n net.IPNet) string { return n.String() }
 	case "dd":
-		s = dd
+		s = netcalc.DD
 	default:
 		fmt.Printf("Invalid output notation: %s\n", *notation)
 		return
@@ -46,18 +48,18 @@ func main() {
 		r = bufio.NewReader(f)
 	}
 
-	nets, err := parse(r)
+	nets, err := netcalc.Parse(r)
 	if err != nil {
 		fmt.Printf("Parse error: %s\n", err.Error())
 		return
 	}
 
 	if *doAssim {
-		nets.assim()
+		nets.Assim()
 	}
 
 	if *doAggr {
-		nets.aggr()
+		nets.Aggr()
 	}
 
 	for _, n := range nets {

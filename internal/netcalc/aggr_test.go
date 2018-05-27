@@ -2,7 +2,7 @@
 // Use of this source code is governed by the MIT license
 // that can be found in the LICENSE file.
 
-package main
+package netcalc
 
 import (
 	"bufio"
@@ -20,11 +20,11 @@ func BenchmarkAggr(b *testing.B) {
 		b.Fatal(err)
 	}
 	defer f.Close()
-	nets, _ := parse(bufio.NewReader(f))
+	nets, _ := Parse(bufio.NewReader(f))
 
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		nets.aggr()
+		nets.Aggr()
 	}
 }
 
@@ -34,11 +34,11 @@ func BenchmarkAssim(b *testing.B) {
 		b.Fatal(err)
 	}
 	defer f.Close()
-	nets, _ := parse(bufio.NewReader(f))
+	nets, _ := Parse(bufio.NewReader(f))
 
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		nets.assim()
+		nets.Assim()
 	}
 }
 
@@ -55,10 +55,10 @@ func TestAggr(t *testing.T) {
 			t.Fatal(err)
 		}
 		defer f.Close()
-		nets, _ := parse(bufio.NewReader(f))
+		nets, _ := Parse(bufio.NewReader(f))
 
-		nets.assim()
-		nets.aggr()
+		nets.Assim()
+		nets.Aggr()
 
 		var b bytes.Buffer
 		for _, n := range nets {

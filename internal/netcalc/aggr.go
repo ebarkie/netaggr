@@ -2,7 +2,7 @@
 // Use of this source code is governed by the MIT license
 // that can be found in the LICENSE file.
 
-package main
+package netcalc
 
 import (
 	"bytes"
@@ -38,8 +38,9 @@ func decrPrefix(mask net.IPMask) net.IPMask {
 	return newMask
 }
 
-// aggr joins adjacent networks to form larger networks.
-func (nets *ipNets) aggr() {
+// Aggr aggregates networks by joining adjacent networks to form larger
+// networks.
+func (nets *Nets) Aggr() {
 	// The slice of IPNet's are sorted so iterate and if the current
 	// IPNet decremented by 1 is in the previous IPNet (the broadcast
 	// address, actually) then they are adjecent.  If the prefixes/masks
@@ -60,8 +61,9 @@ func (nets *ipNets) aggr() {
 	}
 }
 
-// assim removes smaller networks that are inside larger networks.
-func (nets *ipNets) assim() {
+// Assim assimilates networks by removing smaller networks that are inside
+// larger networks.
+func (nets *Nets) Assim() {
 	// The slice of IPNet's are sorted so simply iterate and check if the
 	// current is in the previous IPNet.
 	for i := 1; i < len(*nets); {

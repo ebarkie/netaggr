@@ -2,15 +2,18 @@
 // Use of this source code is governed by the MIT license
 // that can be found in the LICENSE file.
 
-package main
+package netcalc
 
 import (
 	"net"
 	"strings"
 )
 
-// parseDD parses s as an IPv4 address and subnet mask in quad-dotted
-// notation, like "192.0.2.0 255.255.255.0".
+// parseDD parses the string s as an IPv4 address and subnet mask in
+// quad-dotted notation, like:
+//
+//	192.0.2.0 255.255.255.0
+//	192.0.2.0/255.255.255.0
 func parseDD(s string) (net.IP, *net.IPNet, error) {
 	i := strings.IndexAny(s, "/ ")
 	if i < 0 {
@@ -26,7 +29,9 @@ func parseDD(s string) (net.IP, *net.IPNet, error) {
 	return ip, &net.IPNet{IP: ip.Mask(m), Mask: m}, nil
 }
 
-func dd(n net.IPNet) string {
+// DD returns the IP network n as a string formatted as an IPv4 address and
+// a subnet mask in quad-dotted notation.
+func DD(n net.IPNet) string {
 	if len(n.IP) != 4 {
 		return n.String()
 	}

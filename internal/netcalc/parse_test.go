@@ -2,7 +2,7 @@
 // Use of this source code is governed by the MIT license
 // that can be found in the LICENSE file.
 
-package main
+package netcalc
 
 import (
 	"bufio"
@@ -27,7 +27,7 @@ func TestParse(t *testing.T) {
 		}
 		defer f.Close()
 
-		_, err = parse(bufio.NewReader(f))
+		_, err = Parse(bufio.NewReader(f))
 		if err != nil {
 			t.Error(err)
 		}

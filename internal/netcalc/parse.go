@@ -2,7 +2,7 @@
 // Use of this source code is governed by the MIT license
 // that can be found in the LICENSE file.
 
-package main
+package netcalc
 
 import (
 	"bufio"
@@ -14,12 +14,16 @@ import (
 	"strings"
 )
 
-type ipNets []*net.IPNet
-
-// parse parses a list of CIDR network strings from an io.Reader and returns a
-// sorted slice of net.IPNet's.
-func parse(r io.Reader) (ipNets, error) {
-	var nets ipNets
+// Parse parses a list of IPv4/6 CIDR networks or IPv4 addresses and subnet
+// masks in quad-dotted notation, like:
+//
+//	192.0.2.0/24
+//	192.0.2.0 255.255.255.0
+//	192.0.2.0/255.255.255.0
+//
+// It returns a sorted list of Nets.
+func Parse(r io.Reader) (Nets, error) {
+	var nets Nets
 	scanner := bufio.NewScanner(r)
 	for i := 1; scanner.Scan(); i++ {
 		_, n, err := parseNet(strings.TrimSpace(scanner.Text()))
@@ -39,11 +43,11 @@ func parse(r io.Reader) (ipNets, error) {
 }
 
 func parseNet(s string) (net.IP, *net.IPNet, error) {
-	// IPv4/6 CIDR format.
+	// IPv4/6 CIDR notation.
 	if strings.Count(s, ".") < 6 {
 		return net.ParseCIDR(s)
 	}
 
-	// IPv4 dotted decimal subnet mask format.
+	// IPv4 address and subnet mask in quad-dotted notation.
 	return parseDD(s)
 }
