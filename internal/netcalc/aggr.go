@@ -10,7 +10,7 @@ import (
 	"net"
 )
 
-// decrIP decrements an IP address.
+// decrIP decrements an IP address by one.
 func decrIP(ip net.IP) net.IP {
 	newIP := make(net.IP, len(ip))
 	copy(newIP, ip)

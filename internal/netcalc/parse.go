@@ -42,6 +42,8 @@ func Parse(r io.Reader) (Nets, error) {
 	return nets, nil
 }
 
+// parseNet determines network notation of the string s and calls the
+// appropriate parser.
 func parseNet(s string) (net.IP, *net.IPNet, error) {
 	// IPv4/6 CIDR notation.
 	if strings.Count(s, ".") < 6 {
