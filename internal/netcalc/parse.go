@@ -14,8 +14,8 @@ import (
 	"strings"
 )
 
-// Parse parses a list of IPv4/6 CIDR networks or IPv4 addresses and subnet
-// masks in quad-dotted notation, like:
+// Parse parses networks formatted as IPv4/6 CIDR or an IPv4 address and
+// a dot-decimal subnet mask, like:
 //
 //	192.0.2.0/24
 //	192.0.2.0 255.255.255.0
@@ -42,14 +42,14 @@ func Parse(r io.Reader) (Nets, error) {
 	return nets, nil
 }
 
-// parseNet determines network notation of the string s and calls the
-// appropriate parser.
+// parseNet determines the notation of the network string s and calls
+// an appropriate parser.
 func parseNet(s string) (net.IP, *net.IPNet, error) {
-	// IPv4/6 CIDR notation.
+	// IPv4/6 CIDR.
 	if strings.Count(s, ".") < 6 {
 		return net.ParseCIDR(s)
 	}
 
-	// IPv4 address and subnet mask in quad-dotted notation.
+	// IPv4 address and a dot-decimal subnet mask.
 	return parseDD(s)
 }

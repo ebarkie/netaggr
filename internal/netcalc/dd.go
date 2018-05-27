@@ -9,8 +9,8 @@ import (
 	"strings"
 )
 
-// parseDD parses the string s as an IPv4 address and subnet mask in
-// quad-dotted notation, like:
+// parseDD parses the string s formatted as an IPv4 address and a dot-decimal
+// subnet mask, like:
 //
 //	192.0.2.0 255.255.255.0
 //	192.0.2.0/255.255.255.0
@@ -30,7 +30,7 @@ func parseDD(s string) (net.IP, *net.IPNet, error) {
 }
 
 // DD returns the IP network n as a string formatted as an IPv4 address and
-// a subnet mask in quad-dotted notation.
+// a dot-decimal subnet mask.
 func DD(n net.IPNet) string {
 	if len(n.IP) != 4 {
 		return n.String()

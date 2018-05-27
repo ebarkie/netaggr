@@ -5,8 +5,8 @@ import "github.com/ebarkie/netaggr/internal/netcalc"
 
 Package netcalc performs calculations against IP networks.
 
-It can parse a list of IPv4/6 CIDR networks or IPv4 addresses and subnet masks
-in quad-dotted notation and assimilate or aggregate them.
+It can parse networks formatted as IPv4/6 CIDR or an IPv4 address and a
+dot-decimal subnet mask, and assimilate or aggregate them.
 
 ## Usage
 
@@ -16,7 +16,7 @@ in quad-dotted notation and assimilate or aggregate them.
 func DD(n net.IPNet) string
 ```
 DD returns the IP network n as a string formatted as an IPv4 address and a
-subnet mask in quad-dotted notation.
+dot-decimal subnet mask.
 
 #### type Nets
 
@@ -32,8 +32,8 @@ Parse then the caller is responsible for sorting.
 ```go
 func Parse(r io.Reader) (Nets, error)
 ```
-Parse parses a list of IPv4/6 CIDR networks or IPv4 addresses and subnet masks
-in quad-dotted notation, like:
+Parse parses networks formatted as IPv4/6 CIDR or an IPv4 address and a
+dot-decimal subnet mask, like:
 
     192.0.2.0/24
     192.0.2.0 255.255.255.0

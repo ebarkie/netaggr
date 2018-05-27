@@ -4,8 +4,8 @@
 
 // Package netcalc performs calculations against IP networks.
 //
-// It can parse a list of IPv4/6 CIDR networks or IPv4 addresses and subnet
-// masks in quad-dotted notation and assimilate or aggregate them.
+// It can parse networks formatted as IPv4/6 CIDR or an IPv4 address and
+// a dot-decimal subnet mask, and assimilate or aggregate them.
 package netcalc
 
 import "net"

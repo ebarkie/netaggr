@@ -7,7 +7,7 @@ This tool takes a list of networks and attempts to reduce it by removing smaller
 which are already represented by larger networks and joining adjacent networks to form
 larger networks.  The input and output represent exactly the same set of IP addresses.
 
-Networks may be specified in IPv4/6 CIDR format or IPv4 dotted decimal subnet mask format.
+Networks may be formatted as IPv4/6 CIDR or an IPv4 address and a dot-decimal subnet mask.
 
 ## Algorithm
 
