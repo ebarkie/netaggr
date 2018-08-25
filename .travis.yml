@@ -5,16 +5,16 @@ env:
   global:
     - GO111MODULE=on
   matrix:
-    - OS=darwin BIN=netaggr-osx
-    - OS=linux BIN=netaggr-linux-x86_64 RUN_TESTS=true
-    - OS=windows BIN=netaggr-win.exe
+    - ARCH=amd64 OS=darwin BIN=netaggr-osx
+    - ARCH=amd64 OS=linux BIN=netaggr-linux-amd64 RUN_TESTS=true
+    - ARCH=amd64 OS=windows BIN=netaggr-win.exe
 install:
   - go mod download
 script:
   - if [ "$RUN_TESTS" == true ]; then
       go test -race -v ./...;
     fi
-  - GOOS=$OS GARCH=x86_64 go build -o build/$BIN
+  - GOARCH=$ARCH GOOS=$OS go build -o build/$BIN
 deploy:
   provider: releases
   api_key:
