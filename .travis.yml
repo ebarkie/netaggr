@@ -8,6 +8,8 @@ env:
     - OS=darwin BIN=netaggr-osx
     - OS=linux BIN=netaggr-linux-x86_64 RUN_TESTS=true
     - OS=windows BIN=netaggr-win.exe
+install:
+  - go mod download
 script:
   - if [ "$RUN_TESTS" == true ]; then
       go test -race -v ./...;
