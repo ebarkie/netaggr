@@ -10,7 +10,6 @@ env:
     - OS=windows BIN=netaggr-win.exe
 script:
   - if [ "$RUN_TESTS" == true ]; then
-      go vet ./...;
       go test -race -v ./...;
     fi
   - GOOS=$OS GARCH=x86_64 go build -o build/$BIN
