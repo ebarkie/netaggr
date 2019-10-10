@@ -1,1 +1,1 @@
-module github.com/ebarkie/netaggr
+module gitlab.com/ebarkie/netaggr

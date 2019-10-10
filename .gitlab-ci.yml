@@ -1,0 +1,38 @@
+include:
+  remote: 'https://gitlab.com/ebarkie/gitlab-ci/raw/master/go.yml'
+
+stages:
+  - setup
+  - test
+  - build
+
+.build_template: &build
+  stage: build
+  script:
+    - go build -o build/$BIN
+  artifacts:
+    paths:
+      - build
+  only:
+    - tags
+
+build:linux:
+  variables:
+    BIN: netaggr-linux-x86_64
+    GOOS: linux
+    GARCH: x86_64
+  <<: *build
+
+build:osx:
+  variables:
+    BIN: netaggr-osx
+    GOOS: darwin
+    GARCH: x86_64
+  <<: *build
+
+build:windows:
+  variables:
+    BIN: netaggr-win.exe
+    GOOS: windows
+    GARCH: x86_64
+  <<: *build

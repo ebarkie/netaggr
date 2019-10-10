@@ -1,8 +1,5 @@
 # Network aggregator/summarizer
 
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://choosealicense.com/licenses/mit/)
-[![Build Status](https://travis-ci.org/ebarkie/netaggr.svg?branch=master)](https://travis-ci.org/ebarkie/netaggr)
-
 This tool takes a list of networks and attempts to reduce it by removing smaller networks
 which are already represented by larger networks and joining adjacent networks to form
 larger networks.  The input and output represent exactly the same set of IP addresses.
@@ -45,6 +42,6 @@ aggregation use the `-assim=false` and `-aggr=false` flags.
 
 ## License
 
-Copyright (c) 2018 Eric Barkie. All rights reserved.  
+Copyright (c) 2018-2019 Eric Barkie. All rights reserved.  
 Use of this source code is governed by the MIT license
 that can be found in the [LICENSE](LICENSE) file.
