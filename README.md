@@ -1,4 +1,4 @@
-![Go Release](https://github.com/ebarkie/netaggr/workflows/Go%20Release/badge.svg)
+![Release](https://github.com/ebarkie/netaggr/workflows/Release/badge.svg)
 
 # Network aggregator/summarizer
 
