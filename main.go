@@ -14,7 +14,7 @@ import (
 	"os"
 	"strings"
 
-	"gitlab.com/ebarkie/netaggr/internal/netcalc"
+	"github.com/ebarkie/netaggr/internal/netcalc"
 )
 
 func main() {

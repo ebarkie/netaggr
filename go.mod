@@ -1,3 +1,3 @@
-module gitlab.com/ebarkie/netaggr
+module github.com/ebarkie/netaggr
 
 go 1.14

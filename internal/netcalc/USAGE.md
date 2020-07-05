@@ -1,6 +1,6 @@
 # netcalc
 ```go
-import "gitlab.com/ebarkie/netaggr/internal/netcalc"
+import "github.com/ebarkie/netaggr/internal/netcalc"
 ```
 
 Package netcalc performs calculations against IP networks.
