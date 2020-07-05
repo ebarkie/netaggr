@@ -28,8 +28,6 @@ jobs:
           - goos: netbsd
             goarch: arm
 
-
-
     name: ${{ matrix.goos }}/${{ matrix.goarch }}
 
     runs-on: ubuntu-latest
