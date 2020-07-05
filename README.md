@@ -1,4 +1,4 @@
-![master](https://github.com/ebarkie/netaggr/workflows/Push/badge.svg)
+![Push](https://github.com/ebarkie/netaggr/workflows/Push/badge.svg)
 
 # Network aggregator/summarizer
 
