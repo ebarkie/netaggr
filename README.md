@@ -1,3 +1,5 @@
+![Go Release](https://github.com/ebarkie/netaggr/workflows/Go%20Release/badge.svg)
+
 # Network aggregator/summarizer
 
 This tool takes a list of networks and attempts to reduce it by removing smaller networks
