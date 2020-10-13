@@ -43,7 +43,7 @@ func decrPrefix(mask net.IPMask) net.IPMask {
 func (nets *Nets) Aggr() {
 	// The slice of IPNet's are sorted so iterate and if the current
 	// IPNet decremented by 1 is in the previous IPNet (the broadcast
-	// address, actually) then they are adjecent.  If the prefixes/masks
+	// address, actually) then they are adjacent.  If the prefixes/masks
 	// also match then they can be combined.
 	for i := 0; i < len(*nets)-1; {
 		if (*nets)[i].Contains(decrIP((*nets)[i+1].IP)) &&
