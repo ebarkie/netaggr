@@ -7,7 +7,6 @@ package netcalc
 import (
 	"bufio"
 	"bytes"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -66,7 +65,7 @@ func TestAggr(t *testing.T) {
 			b.WriteString("\n")
 		}
 
-		out, _ := ioutil.ReadFile(strings.TrimSuffix(tf, "in") + "out")
+		out, _ := os.ReadFile(strings.TrimSuffix(tf, "in") + "out")
 
 		if !bytes.Equal(b.Bytes(), out) {
 			t.Errorf("\nExpected:\n%s\nGot:\n%s\n", out, b.Bytes())
