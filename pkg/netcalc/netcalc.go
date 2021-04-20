@@ -42,9 +42,7 @@ func Compare(a, b net.IPNet) int {
 // Diff finds the differences between two slices of networks.  It returns a
 // slice of added networks that don't exist in a but do in b, and a slice of
 // deleted networks that exist in a but don't in b.
-func Diff(a, b Nets) (Nets, Nets) {
-	var added, deleted Nets
-
+func Diff(a, b Nets) (added, deleted Nets) {
 	for i, j := 0, 0; i < len(a) || j < len(b); {
 		// If we hit the end of the first list before the second then
 		// anything else in the second are adds.
@@ -74,5 +72,5 @@ func Diff(a, b Nets) (Nets, Nets) {
 		}
 	}
 
-	return added, deleted
+	return
 }
