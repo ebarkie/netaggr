@@ -45,21 +45,22 @@ func Compare(a, b net.IPNet) int {
 // deleted networks that exist in a but don't in b.
 func Diff(a, b Nets) (added, deleted Nets) {
 	for i, j := 0, 0; i < len(a) || j < len(b); {
-		// If we hit the end of the first list before the second then
+		// If we hit the end of the first slice before the second then
 		// anything else in the second are adds.
 		if i == len(a) {
 			added = append(added, b[j:]...)
 			break
 		}
 
-		// Similarly, if we hit the end of the second list before the
+		// Similarly, if we hit the end of the second slive before the
 		// first then anything else in the first are deletes.
 		if j == len(b) {
 			deleted = append(deleted, a[i:]...)
 			break
 		}
 
-		// Lexicographic order tells us if an add or delete took place.
+		// Since the slices are sorted a compare indicates if an add or
+		// delete took place.
 		c := Compare(*a[i], *b[j])
 		if c < 0 {
 			deleted = append(deleted, a[i])
