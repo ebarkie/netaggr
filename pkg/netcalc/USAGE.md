@@ -47,7 +47,7 @@ networks that exist in a but don't in b.
 #### func  Parse
 
 ```go
-func Parse(r io.Reader) (Nets, error)
+func Parse(r io.Reader) (nets Nets, err error)
 ```
 Parse parses single addresses or networks formatted as IPv4/6 addresses, IPv4/6
 CIDR, or an IPv4 address and a dot-decimal subnet mask, like:
@@ -77,24 +77,32 @@ networks.
 #### func (Nets) Len
 
 ```go
-func (n Nets) Len() int
+func (nets Nets) Len() int
 ```
 sort.Interface implementation.
 
 #### func (Nets) Less
 
 ```go
-func (n Nets) Less(i, j int) bool
+func (nets Nets) Less(i, j int) bool
 ```
+
+#### func (*Nets) ReadFrom
+
+```go
+func (nets *Nets) ReadFrom(r io.Reader) (int64, error)
+```
+ReadFrom parses the reader and adds to nets. The nets should be sorted when all
+reads are complete.
 
 #### func (Nets) String
 
 ```go
-func (n Nets) String() string
+func (nets Nets) String() string
 ```
 
 #### func (Nets) Swap
 
 ```go
-func (n Nets) Swap(i, j int)
+func (nets Nets) Swap(i, j int)
 ```

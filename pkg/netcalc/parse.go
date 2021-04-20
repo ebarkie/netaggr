@@ -13,15 +13,6 @@ import (
 	"strings"
 )
 
-// trim removes all comments and leading+trailing white space from a string.
-func trim(s string) string {
-	if i := strings.IndexAny(s, "#;"); i > -1 {
-		return strings.TrimSpace(s[:i])
-	}
-
-	return strings.TrimSpace(s)
-}
-
 // Parse parses single addresses or networks formatted as IPv4/6 addresses,
 // IPv4/6 CIDR, or an IPv4 address and a dot-decimal subnet mask, like:
 //
@@ -31,24 +22,31 @@ func trim(s string) string {
 //	192.0.2.0/255.255.255.0
 //
 // It returns a sorted list of Nets.
-func Parse(r io.Reader) (Nets, error) {
-	var nets Nets
+func Parse(r io.Reader) (nets Nets, err error) {
+	_, err = nets.ReadFrom(r)
+	sort.Sort(nets)
+
+	return
+}
+
+// ReadFrom parses the reader and adds to nets.
+// The nets should be sorted when all reads are complete.
+func (nets *Nets) ReadFrom(r io.Reader) (int64, error) {
 	scanner := bufio.NewScanner(r)
-	for i := 1; scanner.Scan(); i++ {
+	var i int64
+	for ; scanner.Scan(); i++ {
 		s := trim(scanner.Text())
 		if s == "" {
 			continue
 		}
 		_, n, err := parseNet(s)
 		if err != nil {
-			return nets, fmt.Errorf("line %d %w", i, err)
+			return i, fmt.Errorf("line %d %w", i, err)
 		}
-		nets = append(nets, n)
+		*nets = append(*nets, n)
 	}
 
-	sort.Sort(nets)
-
-	return nets, nil
+	return i, nil
 }
 
 // parseNet parses the string s into an IPNet.
@@ -74,4 +72,13 @@ func parseIP(s string) (net.IP, *net.IPNet, error) {
 	}
 
 	return ip, &net.IPNet{IP: ip, Mask: net.CIDRMask(len(ip)*8, len(ip)*8)}, nil
+}
+
+// trim removes all comments and leading+trailing white space from a string.
+func trim(s string) string {
+	if i := strings.IndexAny(s, "#;"); i > -1 {
+		return strings.TrimSpace(s[:i])
+	}
+
+	return strings.TrimSpace(s)
 }

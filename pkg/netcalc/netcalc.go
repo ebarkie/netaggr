@@ -10,6 +10,7 @@ package netcalc
 
 import (
 	"bytes"
+	"fmt"
 	"net"
 )
 
@@ -17,21 +18,21 @@ import (
 // than Parse then the caller is responsible for sorting.
 type Nets []*net.IPNet
 
-func (n Nets) String() string {
+func (nets Nets) String() string {
 	buf := &bytes.Buffer{}
 
-	for _, net := range n {
-		buf.WriteString(net.String())
-		buf.WriteRune('\n')
+	fmt.Fprintf(buf, "%d network(s):\n", len(nets))
+	for _, n := range nets {
+		fmt.Fprintf(buf, "\t%s\n", n)
 	}
 
 	return buf.String()
 }
 
 // sort.Interface implementation.
-func (n Nets) Len() int           { return len(n) }
-func (n Nets) Less(i, j int) bool { return Compare(*n[i], *n[j]) < 0 }
-func (n Nets) Swap(i, j int)      { n[i], n[j] = n[j], n[i] }
+func (nets Nets) Len() int           { return len(nets) }
+func (nets Nets) Less(i, j int) bool { return Compare(*nets[i], *nets[j]) < 0 }
+func (nets Nets) Swap(i, j int)      { nets[i], nets[j] = nets[j], nets[i] }
 
 // Compare returns an integer comparing two IPNet's lexicographically. The
 // result will be 0 if a==b, -1 if a < b, and +1 if a > b.
