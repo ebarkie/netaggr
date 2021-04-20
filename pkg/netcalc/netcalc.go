@@ -52,7 +52,7 @@ func Diff(a, b Nets) (added, deleted Nets) {
 			break
 		}
 
-		// Similarly, if we hit the end of the second slive before the
+		// Similarly, if we hit the end of the second slice before the
 		// first then anything else in the first are deletes.
 		if j == len(b) {
 			deleted = append(deleted, a[i:]...)
