@@ -52,10 +52,10 @@ func Parse(r io.Reader) (Nets, error)
 Parse parses single addresses or networks formatted as IPv4/6 addresses, IPv4/6
 CIDR, or an IPv4 address and a dot-decimal subnet mask, like:
 
-         192.0.2.1
-    	192.0.2.0/24
-    	192.0.2.0 255.255.255.0
-    	192.0.2.0/255.255.255.0
+    192.0.2.1
+    192.0.2.0/24
+    192.0.2.0 255.255.255.0
+    192.0.2.0/255.255.255.0
 
 It returns a sorted list of Nets.
 
