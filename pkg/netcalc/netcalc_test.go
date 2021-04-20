@@ -2,7 +2,6 @@ package netcalc
 
 import (
 	"fmt"
-	"net"
 	"sort"
 	"strings"
 )
@@ -38,20 +37,19 @@ func ExampleDiff() {
 }
 
 func ExampleSort() {
-	n := Nets{
-		&net.IPNet{IP: net.IP{10, 10, 3, 0}, Mask: net.CIDRMask(24, 32)},
-		&net.IPNet{IP: net.IP{192, 168, 1, 0}, Mask: net.CIDRMask(24, 32)},
-		&net.IPNet{IP: net.IP{10, 10, 1, 0}, Mask: net.CIDRMask(24, 32)},
-		&net.IPNet{IP: net.IP{10, 10, 4, 0}, Mask: net.CIDRMask(24, 32)},
-		&net.IPNet{IP: net.IP{10, 10, 2, 0}, Mask: net.CIDRMask(16, 32)},
-	}
+	n, _ := Parse(strings.NewReader(
+		`10.10.3.0/24
+		192.168.1.0/24
+		10.10.1.0/24
+		10.10.4.0/24
+		10.10.2.0/25`))
 
 	sort.Sort(n)
 
 	fmt.Println(n)
 	// Output:
 	// 10.10.1.0/24
-	// 10.10.2.0/16
+	// 10.10.2.0/25
 	// 10.10.3.0/24
 	// 10.10.4.0/24
 	// 192.168.1.0/24

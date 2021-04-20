@@ -13,6 +13,15 @@ import (
 	"strings"
 )
 
+// trim removes all comments and leading+trailing white space from a string.
+func trim(s string) string {
+	if i := strings.IndexAny(s, "#;"); i > -1 {
+		return strings.TrimSpace(s[:i])
+	}
+
+	return strings.TrimSpace(s)
+}
+
 // Parse parses single addresses or networks formatted as IPv4/6 addresses,
 // IPv4/6 CIDR, or an IPv4 address and a dot-decimal subnet mask, like:
 //
@@ -26,7 +35,11 @@ func Parse(r io.Reader) (Nets, error) {
 	var nets Nets
 	scanner := bufio.NewScanner(r)
 	for i := 1; scanner.Scan(); i++ {
-		_, n, err := parseNet(strings.TrimSpace(scanner.Text()))
+		s := trim(scanner.Text())
+		if s == "" {
+			continue
+		}
+		_, n, err := parseNet(s)
 		if err != nil {
 			return nets, fmt.Errorf("line %d %w", i, err)
 		}

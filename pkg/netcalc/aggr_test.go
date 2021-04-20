@@ -62,7 +62,7 @@ func TestAggr(t *testing.T) {
 		var b bytes.Buffer
 		for _, n := range nets {
 			b.WriteString(n.String())
-			b.WriteString("\n")
+			b.WriteRune('\n')
 		}
 
 		out, _ := os.ReadFile(strings.TrimSuffix(tf, "in") + "out")

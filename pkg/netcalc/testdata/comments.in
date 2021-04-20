@@ -1,0 +1,10 @@
+# These are comments
+#
+; In a few different formats
+
+   10.10.0.0/24 # A network
+#10.10.0.2/24;Ignore this
+192.168.0.0/24	; Good
+	192.168.1.0/24; Also good
+;
+
