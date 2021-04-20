@@ -10,6 +10,14 @@ dot-decimal subnet mask, and assimilate or aggregate them.
 
 ## Usage
 
+#### func  Compare
+
+```go
+func Compare(a, b net.IPNet) int
+```
+Compare returns an integer comparing two IPNet's lexicographically. The result
+will be 0 if a==b, -1 if a < b, and +1 if a > b.
+
 #### func  DD
 
 ```go
@@ -17,6 +25,15 @@ func DD(n net.IPNet) string
 ```
 DD returns the IP network n as a string formatted as an IPv4 address and a
 dot-decimal subnet mask.
+
+#### func  Diff
+
+```go
+func Diff(a, b Nets) (Nets, Nets)
+```
+Diff finds the differences between two slices of networks. It returns a slice of
+added networks that don't exist in a but do in b, and a slice of deleted
+networks that exist in a but don't in b.
 
 #### type Nets
 
@@ -56,3 +73,28 @@ func (nets *Nets) Assim()
 ```
 Assim assimilates networks by removing smaller networks that are inside larger
 networks.
+
+#### func (Nets) Len
+
+```go
+func (n Nets) Len() int
+```
+sort.Interface implementation.
+
+#### func (Nets) Less
+
+```go
+func (n Nets) Less(i, j int) bool
+```
+
+#### func (Nets) String
+
+```go
+func (n Nets) String() string
+```
+
+#### func (Nets) Swap
+
+```go
+func (n Nets) Swap(i, j int)
+```

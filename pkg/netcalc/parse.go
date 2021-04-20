@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Eric Barkie. All rights reserved.
+// Copyright (c) 2018 Eric Barkie. All rights reserved.
 // Use of this source code is governed by the MIT license
 // that can be found in the LICENSE file.
 
@@ -6,7 +6,6 @@ package netcalc
 
 import (
 	"bufio"
-	"bytes"
 	"fmt"
 	"io"
 	"net"
@@ -34,11 +33,7 @@ func Parse(r io.Reader) (Nets, error) {
 		nets = append(nets, n)
 	}
 
-	sort.Slice(nets, func(i, j int) bool {
-		return bytes.Compare(
-			append(nets[i].IP, nets[i].Mask...),
-			append(nets[j].IP, nets[j].Mask...)) < 0
-	})
+	sort.Sort(nets)
 
 	return nets, nil
 }
