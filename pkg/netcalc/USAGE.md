@@ -26,15 +26,6 @@ func DD(n net.IPNet) string
 DD returns the IP network n as a string formatted as an IPv4 address and a
 dot-decimal subnet mask.
 
-#### func  Diff
-
-```go
-func Diff(a, b Nets) (Nets, Nets)
-```
-Diff finds the differences between two slices of networks. It returns a slice of
-added networks that don't exist in a but do in b, and a slice of deleted
-networks that exist in a but don't in b.
-
 #### type Nets
 
 ```go
@@ -43,6 +34,15 @@ type Nets []*net.IPNet
 
 Nets is a sorted slice of IPNet's. If this is populated by means other than
 Parse then the caller is responsible for sorting.
+
+#### func  Diff
+
+```go
+func Diff(a, b Nets) (added, deleted Nets)
+```
+Diff finds the differences between two slices of networks. It returns a slice of
+added networks that don't exist in a but do in b, and a slice of deleted
+networks that exist in a but don't in b.
 
 #### func  Parse
 
