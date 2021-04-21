@@ -19,11 +19,13 @@ The algorithm works as follows:
       - If the next network falls within the current network, then delete the next network
 3. Aggregate adjacent networks to form larger networks
    - Iterate the network list from the first network to the second-to-last network
-      - If the next network decremented by one falls within the current network, and the
-        masks/prefix lengths are equal
-         - Decrement the prefix length of the current network by one
-         - Delete the next network
-         - Decrement the iteration index by one
+      - If
+         - The next network decremented by one falls withint he current network, and
+         - The masks/prefix lengths are equal, and
+         - The network prefix decremented by one does not change the network address
+            - Decrement the prefix length of the current network by one
+            - Delete the next network
+            - Decrement the iteration index by one
 
 ## Usage
 

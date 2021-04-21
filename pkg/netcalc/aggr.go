@@ -41,13 +41,15 @@ func decrPrefix(mask net.IPMask) net.IPMask {
 // Aggr aggregates networks by joining adjacent networks to form larger
 // networks.
 func (nets *Nets) Aggr() {
-	// The slice of IPNet's are sorted so iterate and if the current
-	// IPNet decremented by 1 is in the previous IPNet (the broadcast
-	// address, actually) then they are adjacent.  If the prefixes/masks
-	// also match then they can be combined.
+	// The slice of IPNet's are sorted so iterate and if the current net
+	// decremented by one is in the previous net (the broadcast address,
+	// actually) then they are adjacent.  If the masks/prefixes are the
+	// same and decrementing the prefix of the current net does not change
+	// it's IP then they can be combined.
 	for i := 0; i < len(*nets)-1; {
 		if (*nets)[i].Contains(decrIP((*nets)[i+1].IP)) &&
-			bytes.Equal((*nets)[i].Mask, (*nets)[i+1].Mask) {
+			bytes.Equal((*nets)[i].Mask, (*nets)[i+1].Mask) &&
+			(*nets)[i].IP.Equal((*nets)[i].IP.Mask(decrPrefix((*nets)[i].Mask))) {
 			(*nets)[i].Mask = decrPrefix((*nets)[i].Mask)
 			*nets = append((*nets)[:i+1], (*nets)[i+2:]...)
 			// If this isn't the first network then decrement the index by 1
