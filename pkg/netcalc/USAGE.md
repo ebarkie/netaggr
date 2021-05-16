@@ -26,6 +26,14 @@ func DD(n net.IPNet) string
 DD returns the IP network n as a string formatted as an IPv4 address and a
 dot-decimal subnet mask.
 
+#### func  ReadFrom
+
+```go
+func ReadFrom(r io.Reader, netC chan<- *net.IPNet) (int64, error)
+```
+ReadFrom parses the io.Reader and sends the resulting IPNets to the netC
+channel. This is a useful construct for concurrently parsing Nets.
+
 #### type Nets
 
 ```go
@@ -86,14 +94,6 @@ sort.Interface implementation.
 ```go
 func (nets Nets) Less(i, j int) bool
 ```
-
-#### func (*Nets) ReadFrom
-
-```go
-func (nets *Nets) ReadFrom(r io.Reader) (int64, error)
-```
-ReadFrom parses the reader and adds to nets. The nets should be sorted when all
-reads are complete.
 
 #### func (Nets) String
 

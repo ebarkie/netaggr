@@ -23,15 +23,23 @@ import (
 //
 // It returns a sorted list of Nets.
 func Parse(r io.Reader) (nets Nets, err error) {
-	_, err = nets.ReadFrom(r)
+	netC := make(chan *net.IPNet)
+	go func() {
+		defer close(netC)
+		_, err = ReadFrom(r, netC)
+	}()
+
+	for n := range netC {
+		nets = append(nets, n)
+	}
 	sort.Sort(nets)
 
 	return
 }
 
-// ReadFrom parses the reader and adds to nets.
-// The nets should be sorted when all reads are complete.
-func (nets *Nets) ReadFrom(r io.Reader) (int64, error) {
+// ReadFrom parses the io.Reader and sends the resulting IPNets to the netC
+// channel.  This is a useful construct for concurrently parsing Nets.
+func ReadFrom(r io.Reader, netC chan<- *net.IPNet) (int64, error) {
 	scanner := bufio.NewScanner(r)
 	var i int64
 	for ; scanner.Scan(); i++ {
@@ -43,7 +51,8 @@ func (nets *Nets) ReadFrom(r io.Reader) (int64, error) {
 		if err != nil {
 			return i, fmt.Errorf("line %d %w", i, err)
 		}
-		*nets = append(*nets, n)
+
+		netC <- n
 	}
 
 	return i, nil
