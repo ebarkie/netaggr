@@ -11,25 +11,8 @@ jobs:
       fail-fast: true
 
       matrix:
-        goos: [darwin, freebsd, linux, netbsd, openbsd, windows]
+        goos: [linux]
         goarch: [amd64]
-
-        include:
-          - goos: darwin
-            goarch: arm64
-
-          - goos: freebsd
-            goarch: arm
-
-          - goos: linux
-            goarch: arm
-          - goos: linux
-            goarch: arm64
-          - goos: linux
-            goarch: ppc64le
-
-          - goos: netbsd
-            goarch: arm
 
     name: Build ${{ matrix.goos }}/${{ matrix.goarch }}
 

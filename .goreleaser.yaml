@@ -1,0 +1,44 @@
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - freebsd
+      - linux
+      - openbsd
+      - windows
+archives:
+  - format_overrides: 
+    - goos: windows
+      format: zip
+    replacements:
+      386: i386
+      amd64: x86_64
+      darwin: Darwin
+      freebsd: FreeBSD
+      linux: Linux
+      openbsd: OpenBSD
+      windows: Windows
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+brews:
+  - tap:
+      owner: ebarkie
+      name: homebrew-tap
+    commit_author:
+      name: Eric Barkie
+      email: ebarkie@users.noreply.github.com
+    homepage: https://github.com/ebarkie/netaggr
+    description: Network aggregator/summarizer
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
