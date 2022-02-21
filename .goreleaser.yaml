@@ -12,7 +12,7 @@ builds:
       - openbsd
       - windows
 archives:
-  - format_overrides: 
+  - format_overrides:
     - goos: windows
       format: zip
     replacements:
@@ -31,6 +31,7 @@ brews:
   - tap:
       owner: ebarkie
       name: homebrew-tap
+      token: "{{ .Env.TAP_GITHUB_TOKEN }}"
     folder: Formula
     commit_author:
       name: Eric Barkie
