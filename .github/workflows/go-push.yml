@@ -15,6 +15,9 @@ jobs:
         goarch: [amd64]
 
         include:
+          - goos: darwin
+            goarch: arm64
+
           - goos: freebsd
             goarch: arm
 
