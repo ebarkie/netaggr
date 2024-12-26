@@ -47,7 +47,7 @@ func ReadFrom(r io.Reader, netC chan<- *net.IPNet) (int64, error) {
 		if s == "" {
 			continue
 		}
-		_, n, err := parseNet(s)
+		_, n, err := ParseNet(s)
 		if err != nil {
 			return i, fmt.Errorf("line %d %w", i, err)
 		}
@@ -58,8 +58,8 @@ func ReadFrom(r io.Reader, netC chan<- *net.IPNet) (int64, error) {
 	return i, nil
 }
 
-// parseNet parses the string s into an IPNet.
-func parseNet(s string) (net.IP, *net.IPNet, error) {
+// ParseNet parses the string s into an IPNet.
+func ParseNet(s string) (net.IP, *net.IPNet, error) {
 	if strings.Count(s, ".") == 6 {
 		return parseDD(s)
 	} else if strings.Contains(s, "/") {
