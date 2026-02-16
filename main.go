@@ -30,8 +30,8 @@ func main() {
 	case "dd":
 		s = netcalc.DD
 	default:
-		fmt.Printf("Invalid output notation: %s\n", *notation)
-		return
+		fmt.Fprintf(os.Stderr, "Invalid output notation: %s\n", *notation)
+		os.Exit(1)
 	}
 
 	var r io.Reader
@@ -40,8 +40,8 @@ func main() {
 	} else {
 		f, err := os.Open(*in)
 		if err != nil {
-			fmt.Printf("Input error: %s\n", err)
-			return
+			fmt.Fprintf(os.Stderr, "Input error: %s\n", err)
+			os.Exit(1)
 		}
 		defer f.Close()
 		r = f
@@ -49,8 +49,8 @@ func main() {
 
 	nets, err := netcalc.Parse(r)
 	if err != nil {
-		fmt.Printf("Parse error: %s\n", err)
-		return
+		fmt.Fprintf(os.Stderr, "Parse error: %s\n", err)
+		os.Exit(1)
 	}
 
 	if *doAssim {

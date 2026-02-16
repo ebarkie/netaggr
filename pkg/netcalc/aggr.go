@@ -44,13 +44,15 @@ func (nets *Nets) Aggr() {
 	// decremented by one is in the previous net (the broadcast address,
 	// actually) then they are adjacent.  If the masks/prefixes are the
 	// same and decrementing the prefix of the current net does not change
-	// it's IP then they can be combined.
-	for i := 0; i < len(*nets)-1; {
-		if (*nets)[i].Contains(decrIP((*nets)[i+1].IP)) &&
-			bytes.Equal((*nets)[i].Mask, (*nets)[i+1].Mask) &&
-			(*nets)[i].IP.Equal((*nets)[i].IP.Mask(decrPrefix((*nets)[i].Mask))) {
-			(*nets)[i].Mask = decrPrefix((*nets)[i].Mask)
-			*nets = append((*nets)[:i+1], (*nets)[i+2:]...)
+	// its IP then they can be combined.
+	n := *nets
+	for i := 0; i < len(n)-1; {
+		wider := decrPrefix(n[i].Mask)
+		if n[i].Contains(decrIP(n[i+1].IP)) &&
+			bytes.Equal(n[i].Mask, n[i+1].Mask) &&
+			n[i].IP.Equal(n[i].IP.Mask(wider)) {
+			n[i].Mask = wider
+			n = append(n[:i+1], n[i+2:]...)
 			// If this isn't the first network then decrement the index by 1
 			// to see if the new prefix allows for additional combines.
 			if i > 0 {
@@ -60,6 +62,7 @@ func (nets *Nets) Aggr() {
 			i++
 		}
 	}
+	*nets = n
 }
 
 // Assim assimilates networks by removing smaller networks that are inside
@@ -67,11 +70,13 @@ func (nets *Nets) Aggr() {
 func (nets *Nets) Assim() {
 	// The slice of IPNet's are sorted so simply iterate and check if the
 	// current is in the previous IPNet.
-	for i := 1; i < len(*nets); {
-		if (*nets)[i-1].Contains((*nets)[i].IP) {
-			*nets = append((*nets)[:i], (*nets)[i+1:]...)
+	n := *nets
+	for i := 1; i < len(n); {
+		if n[i-1].Contains(n[i].IP) {
+			n = append(n[:i], n[i+1:]...)
 		} else {
 			i++
 		}
 	}
+	*nets = n
 }
