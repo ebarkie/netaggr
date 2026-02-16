@@ -37,7 +37,10 @@ func (nets Nets) Swap(i, j int)      { nets[i], nets[j] = nets[j], nets[i] }
 // Compare returns an integer comparing two IPNet's lexicographically. The
 // result will be 0 if a==b, -1 if a < b, and +1 if a > b.
 func Compare(a, b net.IPNet) int {
-	return bytes.Compare(append(a.IP, a.Mask...), append(b.IP, b.Mask...))
+	if c := bytes.Compare(a.IP, b.IP); c != 0 {
+		return c
+	}
+	return bytes.Compare(a.Mask, b.Mask)
 }
 
 // Diff finds the differences between two slices of networks.  It returns a

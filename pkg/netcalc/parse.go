@@ -49,13 +49,13 @@ func ReadFrom(r io.Reader, netC chan<- *net.IPNet) (int64, error) {
 		}
 		_, n, err := ParseNet(s)
 		if err != nil {
-			return i, fmt.Errorf("line %d %w", i, err)
+			return i, fmt.Errorf("line %d %w", i+1, err)
 		}
 
 		netC <- n
 	}
 
-	return i, nil
+	return i, scanner.Err()
 }
 
 // ParseNet parses the string s into an IPNet.

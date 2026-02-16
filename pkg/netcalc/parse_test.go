@@ -8,6 +8,7 @@ import (
 	"bufio"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -20,16 +21,18 @@ func TestParse(t *testing.T) {
 	}
 
 	for _, tf := range testFiles {
-		t.Logf("Parse test: %s", tf)
-		f, err := os.Open(tf)
-		if err != nil {
-			t.Fatal(err)
-		}
-		defer f.Close()
+		name := strings.TrimSuffix(filepath.Base(tf), ".in")
+		t.Run(name, func(t *testing.T) {
+			f, err := os.Open(tf)
+			if err != nil {
+				t.Fatal(err)
+			}
+			defer f.Close()
 
-		_, err = Parse(bufio.NewReader(f))
-		if err != nil {
-			t.Error(err)
-		}
+			_, err = Parse(bufio.NewReader(f))
+			if err != nil {
+				t.Error(err)
+			}
+		})
 	}
 }

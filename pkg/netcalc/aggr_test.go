@@ -48,27 +48,29 @@ func TestAggr(t *testing.T) {
 	}
 
 	for _, tf := range testFiles {
-		t.Logf("Aggregate test: %s", tf)
-		f, err := os.Open(tf)
-		if err != nil {
-			t.Fatal(err)
-		}
-		defer f.Close()
-		nets, _ := Parse(bufio.NewReader(f))
+		name := strings.TrimSuffix(filepath.Base(tf), ".in")
+		t.Run(name, func(t *testing.T) {
+			f, err := os.Open(tf)
+			if err != nil {
+				t.Fatal(err)
+			}
+			defer f.Close()
+			nets, _ := Parse(bufio.NewReader(f))
 
-		nets.Assim()
-		nets.Aggr()
+			nets.Assim()
+			nets.Aggr()
 
-		var b bytes.Buffer
-		for _, n := range nets {
-			b.WriteString(n.String())
-			b.WriteRune('\n')
-		}
+			var b bytes.Buffer
+			for _, n := range nets {
+				b.WriteString(n.String())
+				b.WriteRune('\n')
+			}
 
-		out, _ := os.ReadFile(strings.TrimSuffix(tf, "in") + "out")
+			out, _ := os.ReadFile(strings.TrimSuffix(tf, "in") + "out")
 
-		if !bytes.Equal(b.Bytes(), out) {
-			t.Errorf("\nExpected:\n%s\nGot:\n%s\n", out, b.Bytes())
-		}
+			if !bytes.Equal(b.Bytes(), out) {
+				t.Errorf("\nExpected:\n%s\nGot:\n%s\n", out, b.Bytes())
+			}
+		})
 	}
 }
