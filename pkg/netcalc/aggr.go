@@ -6,7 +6,6 @@ package netcalc
 
 import (
 	"bytes"
-	"math"
 	"net"
 )
 
@@ -16,7 +15,7 @@ func decrIP(ip net.IP) net.IP {
 	copy(newIP, ip)
 	for i := len(newIP) - 1; i >= 0; i-- {
 		newIP[i]--
-		if newIP[i] < math.MaxUint8 {
+		if newIP[i] != 0xff {
 			break
 		}
 	}
@@ -30,7 +29,7 @@ func decrPrefix(mask net.IPMask) net.IPMask {
 	copy(newMask, mask)
 	for i := len(newMask) - 1; i >= 0; i-- {
 		if newMask[i] > 0 {
-			newMask[i] = newMask[i] << 1
+			newMask[i] <<= 1
 			break
 		}
 	}

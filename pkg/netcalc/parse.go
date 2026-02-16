@@ -76,8 +76,8 @@ func parseIP(s string) (net.IP, *net.IPNet, error) {
 		return nil, nil, &net.ParseError{Type: "ip address", Text: s}
 	}
 
-	if ip.To4() != nil {
-		ip = ip[len(ip)-net.IPv4len:]
+	if v4 := ip.To4(); v4 != nil {
+		ip = v4
 	}
 
 	return ip, &net.IPNet{IP: ip, Mask: net.CIDRMask(len(ip)*8, len(ip)*8)}, nil
